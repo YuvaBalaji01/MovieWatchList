@@ -1,0 +1,25 @@
+# 🎬 MovieWatchList Backend
+
+Backend for MovieWatchList app built with Node.js, Express, MongoDB, and JWT authentication.
+
+## Features
+- User authentication (JWT)
+- Add / remove movies
+- Mark movies as watched
+- User-specific watchlists
+
+## Tech Stack
+- Node.js
+- Express
+- MongoDB Atlas
+- JWT Authentication
+
+## Setup
+1. Clone repo
+2. Install dependencies
+   npm install
+3. Create .env file
+   MONGO_URI=your_mongo_url
+   JWT_SECRET=your_secret
+4. Run server
+   npm start
