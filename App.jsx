@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Hero from "./components/Home";
 import MyList from "./components/MyList";
 import Login from "./components/Login";
+import Footer from "./components/Footer";
+
 
 const App = () => {
 
@@ -13,13 +15,13 @@ const App = () => {
 
   // fetch count from backend
  const fetchWatchlistCount = async () => {
-  try {
+  
     const token = localStorage.getItem("token");
     if (!token) {
       setWatchlistCount(0);
       return;
     }
-
+  try {
     const res = await fetch("http://localhost:5000/api/movies", {
       headers: {
         Authorization: `Bearer ${token}`
@@ -49,9 +51,10 @@ const App = () => {
         setSearchResults={setSearchResults}
         refreshWatchlistCount={fetchWatchlistCount}/>} />
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount}  />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login  onLogin={fetchWatchlistCount}/>} />
 
       </Routes>
+        <Footer />
     </BrowserRouter>
   );
 };

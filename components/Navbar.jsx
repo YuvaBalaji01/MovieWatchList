@@ -48,7 +48,7 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
           <input
             type="text"
             className="search-input"
-            placeholder="Search..."
+            placeholder="Movie in Ur Mind? Search it!"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         )}

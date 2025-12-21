@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +33,8 @@ const Login = () => {
     if (!isRegister) {
     localStorage.setItem("token", data.token);
     localStorage.setItem("userEmail", data.user.email); // ✅ FIX
-    navigate("/"); // better than window.location.href
+    onLogin();   
+    navigate("/", { replace: true }); // better than window.location.href
 
 
     } else {
@@ -62,13 +65,22 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <div className="password-field">
+       <input
+        type={showPassword ? "text" : "password"}
+        placeholder="Password"
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+       />
+
+       <span
+       className="toggle-password"
+       onClick={() => setShowPassword(prev => !prev)}
+       >
+       {showPassword ? "🙈" : "👁️"}
+        </span>
+      </div>
 
         <button type="submit" className="auth-btn">
           {isRegister ? "Register" : "Login"}

@@ -28,23 +28,34 @@ const MyList = ({ refreshWatchlistCount }) => {
 };
 
   
- const toggleWatched = async (id) => {
-    const res = await fetch(
-      `http://localhost:5000/api/movies/${id}/toggle`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+ const toggleWatched = async (movie) => {
+  // 🔒 If already watched, do nothing
+  if (movie.watched) return;
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `http://localhost:5000/api/movies/${movie._id}/toggle`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    );
+    }
+  );
 
-    const updated = await res.json();
+  if (!res.ok) return;
 
-    setMovies(prev =>
-      prev.map(m => (m._id === updated._id ? updated : m))
-    );
-  };
+  const updated = await res.json();
+
+  // 🎉 Popup message
+  alert("Great! Marked as watched 🎉");
+
+  // ✅ Update UI instantly
+  setMovies(prev =>
+    prev.map(m => (m._id === updated._id ? updated : m))
+  );
+};
 
 
   useEffect(() => {
@@ -101,9 +112,10 @@ const MyList = ({ refreshWatchlistCount }) => {
               <div className="movie-actions">
               <button
                className={`add-btn ${movie.watched ? "watched" : ""}`}
-               onClick={() => toggleWatched(movie._id)}
+               onClick={() => toggleWatched(movie)}
+               disabled={movie.watched}
               >
-              {movie.watched ? "Watched ✔" : "Not Watched"}
+              {movie.watched ? "Watched ✔" : "Watched 🤔"}
               </button>
 
               <button
