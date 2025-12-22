@@ -13,39 +13,65 @@ https://moviewatchlist-b40k.onrender.com/
 🚀 Features
 
 🔐 User authentication (Register / Login) using JWT
+
 🎥 Browse & search movies (TMDB API)
+
 ➕ Add movies to My List
+
 ✅ Mark movies as watched
+
 ❌ Remove movies from watchlist
+
 🔄 Real-time watchlist count update
+
 💾 Persistent data using MongoDB Atlas
 
 🛠 Tech Stack
+
 Frontend
+
 -React (Vite)
+
 -React Router
+
 -TMDB API
+
 -Vercel
 
 Backend
+
 -Node.js
+
 -Express.js
+
 -MongoDB Atlas
+
 -Mongoose
+
 -JWT & bcrypt
+
 -Render
 
 📁 Project Structure
 MovieWatchList/
+
 ├── Backend/
+
 │   ├── middleware/
+
 │   ├── models/
+
 │   ├── routes/
+
 │   └── server.js
+
 │
 ├── Frontend/
+
 │   └── src/
+
 │       ├── components/
+
 │       └── App.jsx
 │
 └── README.md
@@ -66,12 +92,16 @@ VITE_TMDB_API_KEY=your_tmdb_key
 ⚙️ Local Setup
 # Backend
 cd Backend
+
 npm install
+
 npm run dev
 
 # Frontend
 cd Frontend
+
 npm install
+
 npm run dev
 
 👨‍💻 Author
