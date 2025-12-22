@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = ({onLogin}) => {
   const [email, setEmail] = useState("");
@@ -13,9 +14,9 @@ const Login = ({onLogin}) => {
     e.preventDefault();
 
     const url = isRegister
-      ? "http://localhost:5000/api/auth/register"
-      : "http://localhost:5000/api/auth/login";
-
+  ? `${API_BASE_URL}/api/auth/register`
+  : `${API_BASE_URL}/api/auth/login`;
+    
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -99,3 +100,4 @@ const Login = ({onLogin}) => {
 };
 
 export default Login;
+
