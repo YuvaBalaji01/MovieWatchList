@@ -5,7 +5,7 @@ manage a personal watchlist, and track watched movies with secure authentication
 
 🌐 Live Demo
 Frontend (Vercel):
-https://movie-watch-list-chi.vercel.app/(Copy & paste it in Browser)
+https://movie-watch-list-chi.vercel.app/
 
 Backend (Render):
 https://moviewatchlist-b40k.onrender.com/
