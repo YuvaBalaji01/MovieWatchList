@@ -12,7 +12,7 @@ https://moviewatchlist-b40k.onrender.com/
 
 🚀 Features
 
-🔐 User authentication (Register / Login) using JWT
+🔐 User authentication (Register / Login) using JWT(json web token)
 
 🎥 Browse & search movies (TMDB API)
 
