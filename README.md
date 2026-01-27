@@ -10,6 +10,8 @@ https://movie-watch-list-chi.vercel.app/
 Backend (Render):
 https://moviewatchlist-b40k.onrender.com/
 
+Full application link:https://movie-watch-list-chi.vercel.app/
+
 🚀 Features
 
 🔐 User authentication (Register / Login) using JWT(json web token)
