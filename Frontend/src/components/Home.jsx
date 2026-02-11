@@ -67,7 +67,6 @@ const Hero = ({  searchQuery, searchResults, setSearchResults,refreshWatchlistCo
       img: "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
     },
 
-    // ⭐ My 5 Favourite Movies
     {
       id: 8,
       title: "The Dark Knight",
@@ -254,7 +253,7 @@ useEffect(() => {
   return (
     <section className="hero">
       <div className="hero-content">
-        <h1>There are total 3,51,89,546+Movies😍  </h1>
+        <h1>There are total 3,51,89,546+Movies</h1>
         <h1>How many did You Watch?</h1>
         <p>Track your favorites. Organize your binge-watching. All in one place.</p>
         {token ? (
@@ -363,3 +362,4 @@ useEffect(() => {
 };
 
 export default Hero;
+
