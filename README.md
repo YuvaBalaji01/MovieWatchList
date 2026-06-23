@@ -1,113 +1,239 @@
-🎬 MovieWatchList (CineStack)
+# 🎬 CineStack - Movie Watchlist Platform
 
-MovieWatchList (CineStack) is a full-stack MERN-style web application that allows users to discover movies,
-manage a personal watchlist, and track watched movies with secure authentication.
+CineStack is a full-stack MERN application that helps users discover movies, build a personalized watchlist, and track their watching progress. It integrates with the TMDB API to provide real-time movie information while securely storing each user's watchlist using JWT authentication and MongoDB Atlas.
 
-🌐 Live Demo
-Frontend (Vercel):
+---
+
+## 🌐 Live Demo
+
+### Frontend (Vercel)
+
 https://movie-watch-list-chi.vercel.app/
 
-Backend (Render):
+### Backend (Render)
+
 https://moviewatchlist-b40k.onrender.com/
 
-Full application link:https://movie-watch-list-chi.vercel.app/
+---
 
-🚀 Features
+# ✨ Features
 
-🔐 User authentication (Register / Login) using JWT(json web token)
+### 🔐 Authentication
 
-🎥 Browse & search movies (TMDB API)
+* User Registration & Login
+* JWT Authentication
+* Password hashing using bcrypt
+* Protected API routes
 
-➕ Add movies to My List
+### 🎥 Discover Movies
 
-✅ Mark movies as watched
+* Search movies using the TMDB API
+* Browse New Arrivals (current year releases)
+* Browse Award Winning Movies
+* Beautiful responsive movie cards
 
-❌ Remove movies from watchlist
+### 📋 Personal Watchlist
 
-🔄 Real-time watchlist count update
+* Add movies to your personal watchlist
+* Prevent duplicate movie additions
+* Remove movies
+* Mark movies as watched
+* Persistent watchlist stored in MongoDB Atlas
 
-💾 Persistent data using MongoDB Atlas
+### 🎞 Personalized Hero Section
 
-🛠 Tech Stack
+* Dynamic Hero Slider
+* Displays unwatched movies from the user's watchlist
+* Automatically cycles through movies
+* Displays:
 
-Frontend
+  * Movie backdrop
+  * Movie title
+  * IMDb rating
+  * Overview
+  * Continue Watching button
 
--React (Vite)
+### ⚡ Real-Time Updates
 
--React Router
+* Watchlist count updates instantly
+* Hero slider updates after page refresh
+* Dynamic rendering based on logged-in user
 
--TMDB API
+### 🎨 UI/UX
 
--Vercel
+* Netflix-inspired interface
+* Responsive design
+* Modular CSS architecture
+* Smooth hover animations
+* Dark cinematic theme
 
-Backend
+---
 
--Node.js
+# 🛠 Tech Stack
 
--Express.js
+## Frontend
 
--MongoDB Atlas
+* React.js (Vite)
+* React Router DOM
+* Fetch API
+* TMDB API
+* CSS Modules / Modular CSS
+* Vercel
 
--Mongoose
+---
 
--JWT & bcrypt
+## Backend
 
--Render
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Mongoose
+* JWT Authentication
+* bcrypt
+* Render
 
-📁 Project Structure
-MovieWatchList/
+---
 
-├── Backend/
+# 📂 Project Structure
 
-│   ├── middleware/
-
-│   ├── models/
-
-│   ├── routes/
-
-│   └── server.js
-
+```text
+MovieWatchList
 │
-├── Frontend/
-
-│   └── src/
-
-│       ├── components/
-
-│       └── App.jsx
+├── Backend
+│   ├── middleware
+│   │     └── authMiddleware.js
+│   │
+│   ├── models
+│   │     ├── Movie.js
+│   │     └── User.js
+│   │
+│   ├── routes
+│   │     ├── authRoutes.js
+│   │     └── movieRoutes.js
+│   │
+│   ├── .env
+│   ├── package.json
+│   └── server.js
+│
+├── Frontend
+│   ├── public
+│   │
+│   └── src
+│       ├── components
+│       │     ├── Hero.jsx
+│       │     ├── HeroSlider.jsx
+│       │     ├── Home.jsx
+│       │     ├── Login.jsx
+│       │     ├── Register.jsx
+│       │     ├── MovieGrid.jsx
+│       │     ├── MovieCard.jsx
+│       │     ├── MyList.jsx
+│       │     ├── Navbar.jsx
+│       │     └── Footer.jsx
+│       │
+│       ├── style
+│       │     ├── Home.css
+│       │     ├── HeroSlider.css
+│       │     ├── MovieCard.css
+│       │     ├── MovieGrid.css
+│       │     ├── Login.css
+│       │     ├── Navbar.css
+│       │     ├── Footer.css
+│       │     ├── Variables.css
+│       │     └── Global.css
+│       │
+│       ├── App.jsx
+│       ├── main.jsx
+│       └── index.css
 │
 └── README.md
+```
 
-🔐 Environment Variables
+---
 
-Backend
+# 🔐 Environment Variables
 
-MONGO_URI=your_mongodb_uri
+## Backend (.env)
+
+```env
+MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+PORT=5000
+```
 
+---
 
-Frontend
+## Frontend (.env)
 
+```env
 VITE_API_BASE_URL=https://moviewatchlist-b40k.onrender.com
-VITE_TMDB_API_KEY=your_tmdb_key
+VITE_TMDB_API_KEY=your_tmdb_api_key
+```
 
-⚙️ Local Setup
-# Backend
+---
+
+# ⚙️ Local Setup
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/YuvaBalaji01/MovieWatchList.git
+```
+
+---
+
+## 2. Backend
+
+```bash
 cd Backend
 
 npm install
 
 npm run dev
+```
 
-# Frontend
+---
+
+## 3. Frontend
+
+```bash
 cd Frontend
 
 npm install
 
 npm run dev
+```
 
-👨‍💻 Author
-Yuva Balaji
-GitHub: https://github.com/YuvaBalaji01
+---
 
-⭐ If you like this project, don’t forget to star the repository!
+# 📸 Current Features
+
+* Secure User Authentication
+* Personalized Watchlist
+* Dynamic Hero Slider
+* Search Movies using TMDB
+* New Arrivals Section
+* Award Winning Movies Section
+* Add / Remove Movies
+* Mark as Watched
+* Responsive Netflix-style UI
+* MongoDB Atlas Database
+* JWT Protected APIs
+* Cloud Deployment (Vercel + Render)
+
+
+# 👨‍💻 Author
+
+**Yuva Balaji**
+
+GitHub:
+https://github.com/YuvaBalaji01
+
+LinkedIn:
+https://www.linkedin.com/in/yuvabalaji/
+
+---
+
+## ⭐ Support
+
+If you enjoyed this project, please consider giving it a ⭐ on GitHub. It helps others discover the project and motivates future improvements.

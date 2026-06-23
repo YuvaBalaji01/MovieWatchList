@@ -57,9 +57,6 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
 
         </ul>
           
-       <p className="welcome-text">
-            Welcome back,
-        </p>
 
         <h5>{userEmail}</h5>
         
