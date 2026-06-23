@@ -12,6 +12,10 @@ const movieSchema = new mongoose.Schema(
     posterPath: {
      type: String
     },
+   
+    backdropPath: String,
+    overview: String,
+    releaseDate: String,
 
     userId: {
       type: mongoose.Schema.Types.ObjectId,

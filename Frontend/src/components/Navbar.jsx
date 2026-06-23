@@ -6,6 +6,7 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
   const token = localStorage.getItem("token");
   const isMyListPage = location.pathname === "/my-list";
   const isLoginPage = location.pathname === "/login";
+  const userEmail = localStorage.getItem("userEmail");
 
   return (
     <nav className="navbar">
@@ -56,8 +57,11 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
 
         </ul>
           
-       
+       <p className="welcome-text">
+            Welcome back,
+        </p>
 
+        <h5>{userEmail}</h5>
         
       </div>
     </nav>

@@ -7,7 +7,15 @@ const authMiddleware = require("../middleware/authMiddleware");
 // ➕ ADD MOVIE (logged-in user only)
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { title, rating, watched,posterPath } = req.body;
+    const {
+      title,
+      rating,
+      watched,
+      posterPath,
+      backdropPath,
+      overview,
+      releaseDate
+    } = req.body;
     const userId = req.user.userId;
 
     // 🔒 Duplicate check per user
@@ -23,7 +31,10 @@ router.post("/", authMiddleware, async (req, res) => {
       rating,
       watched,
       posterPath,
-      userId
+      backdropPath,
+      overview,
+      releaseDate,
+      userId:req.user.userId
     });
 
     res.status(201).json(movie);

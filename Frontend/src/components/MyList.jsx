@@ -26,6 +26,7 @@ const MyList = ({ refreshWatchlistCount }) => {
   // remove from UI instantly
   setMovies(prev => prev.filter(m => m._id !== id));
    refreshWatchlistCount();
+   fetchWatchlist();
 };
 
   
@@ -56,6 +57,7 @@ const MyList = ({ refreshWatchlistCount }) => {
   setMovies(prev =>
     prev.map(m => (m._id === updated._id ? updated : m))
   );
+  fetchWatchlist();
 };
 
 

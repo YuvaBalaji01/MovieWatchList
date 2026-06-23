@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MovieGrid from "./MovieGrid";
+import HeroSlider from "./HeroSlider";
 import { useNavigate } from "react-router-dom";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -10,12 +11,44 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, refreshWatchlistCount }) => {
 
   const [movies, setMovies] = useState([]);
+  const [watchlistMovies, setWatchlistMovies] = useState([]);
+  const [currentMovie, setCurrentMovie] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
   const [oscarMovies, setOscarMovies] = useState([]);
   const isMyListPage = location.pathname === "/my-list";
   const isLoginPage = location.pathname === "/login";
+
+  const fetchWatchlist = async () => {
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/movies`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      const unwatched = data.filter(movie => !movie.watched);
+
+      setWatchlistMovies(unwatched);
+
+      if (unwatched.length > 0)
+        setCurrentMovie(unwatched[0]);
+      else
+        setCurrentMovie(null);
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchWatchlist();
+  }, []);
 
   useEffect(() => {
     const fetchNewArrivals = async () => {
@@ -59,6 +92,50 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
     fetchNewArrivals();
   }, []);
 
+  //Movie sliding 
+  useEffect(() => {
+    if (!token) return;
+
+    const fetchWatchlist = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/movies`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const data = await res.json();
+
+        const unwatched = data.filter(movie => !movie.watched);
+
+        setWatchlistMovies(unwatched);
+
+        if (unwatched.length > 0) {
+          setCurrentMovie(unwatched[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchWatchlist();
+  }, []);
+
+
+  //Sliding
+  useEffect(() => {
+    if (watchlistMovies.length === 0) return;
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index = (index + 1) % watchlistMovies.length;
+      setCurrentMovie(watchlistMovies[index]);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [watchlistMovies]);
+
 
   useEffect(() => {
     const fetchAwardMovies = async () => {
@@ -73,7 +150,6 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
 
     fetchAwardMovies();
   }, []);
-
 
 
   // 🔍 Search TMDB
@@ -114,13 +190,17 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
         title: movie.title,
         rating: movie.vote_average || 0,
         watched: false,
-        posterPath: movie.poster_path || movie.posterPath || movie.img
+        posterPath: movie.poster_path,
+        backdropPath: movie.backdrop_path,
+        overview: movie.overview,
+        releaseDate: movie.release_date
       })
     });
 
     if (!res.ok) return;
 
     refreshWatchlistCount();
+    await fetchWatchlist();
 
     // ✅ SEARCH
     if (source === "search") {
@@ -152,25 +232,8 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
 
   return (
     <section className="hero">
-      <div className="hero-content">
-        <h1>There are total 3,51,89,546+Movies</h1>
-        <h1>How many did You Watch?</h1>
-        <p>Track your favorites. Organize your binge-watching. All in one place.</p>
-        {token ? (
-          <div className="logged-user">
-            <span>Welcome, </span>
-            <strong>{userEmail}</strong>
-          </div>
-        ) : (
-          <button
-            className="primary-btn"
-            onClick={() => navigate("/login")}
-          >
-            Get Started  →
-          </button>
-        )}
 
-      </div>
+      <HeroSlider currentMovie={currentMovie} />
 
       {/* 🔍 SEARCH RESULTS */}
 
