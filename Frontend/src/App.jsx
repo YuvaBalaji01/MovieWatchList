@@ -44,9 +44,10 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      <Navbar watchlistCount={watchlistCount} setSearchQuery={setSearchQuery} />
+      <Navbar watchlistCount={watchlistCount}  />
       <Routes>
         <Route path="/" element={<Hero 
+        setSearchQuery={setSearchQuery}
         searchQuery={searchQuery}
         searchResults={searchResults}
         setSearchResults={setSearchResults}
