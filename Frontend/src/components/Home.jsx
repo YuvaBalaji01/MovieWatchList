@@ -7,13 +7,15 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({  searchQuery, searchResults, setSearchResults,refreshWatchlistCount }) => {
+const Hero = ({ setSearchQuery,  searchQuery, searchResults, setSearchResults,refreshWatchlistCount }) => {
   
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
   const [oscarMovies, setOscarMovies] = useState([]);
+  const isMyListPage = location.pathname === "/my-list";
+  const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
   setMovies([
@@ -273,9 +275,20 @@ useEffect(() => {
       </div>
 
       {/* 🔍 SEARCH RESULTS */}
-      {searchResults.length > 0 && (
+      
+      
         <div className="content-section">
-          <h2>Search Results</h2>
+
+          {!isMyListPage && !isLoginPage &&(
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Movie in Ur Mind? Search it!"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          )}
+          {searchResults.length > 0 && (
+          <h2>Search Results</h2>)}
 
           <div className="movies-grid">
             {searchResults.map(movie => (
@@ -311,10 +324,11 @@ useEffect(() => {
             ))}
           </div>
         </div>
-      )}
+      
 
       {/* 🔥 TRENDING (STATIC) */}
       <div className="content-section">
+        
         <h2>My Suggestions</h2>
         <MovieGrid movies={movies} onAdd={handleAddToList} />
         

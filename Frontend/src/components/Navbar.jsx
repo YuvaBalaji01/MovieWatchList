@@ -5,6 +5,7 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
   const location = useLocation();
   const token = localStorage.getItem("token");
   const isMyListPage = location.pathname === "/my-list";
+  const isLoginPage = location.pathname === "/login";
 
   return (
     <nav className="navbar">
@@ -22,36 +23,42 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
 
           <li className="watchlist-link">
             <Link to="/my-list" style={{ textDecoration: "none", color: "inherit" }}>
-              My List <span className="badge">{watchlistCount}</span>
+            My List 
+            { watchlistCount > 0 &&(
+              <span className="badge">{watchlistCount}</span>
+            )}
             </Link>
           </li>
 
           {/* 🔐 LOGIN / LOGOUT */}
-          {token ? (
-            <li
-              onClick={() => {
-                localStorage.clear();
-                window.location.reload();
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              Logout
-            </li>
-          ) : (
-            <li>
-              <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>Login</Link>
-            </li>
-          )}
-        </ul>
+          
+          {!isLoginPage && (
+             token ? (
+              <li
+               onClick={() => {
+                  const isConfirmed = window.confirm("Are you sure you want to log out?");
 
-        {!isMyListPage && (
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Movie in Ur Mind? Search it!"
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        )}
+                  if (isConfirmed) {
+                    localStorage.clear();
+                    window.location.reload();
+                  }
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                Logout
+              </li>
+            ) : (
+              <li>
+                <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>Login</Link>
+              </li>
+            )
+          )}
+
+        </ul>
+          
+       
+
+        
       </div>
     </nav>
   );
