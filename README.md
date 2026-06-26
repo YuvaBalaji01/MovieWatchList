@@ -236,4 +236,4 @@ https://www.linkedin.com/in/yuvabalaji/
 
 ## ⭐ Support
 
-If you enjoyed this project, please consider giving it a ⭐ on GitHub. It helps others discover the project and motivates future improvements.
+If you enjoyed this project, please consider giving it a ⭐ on GitHub. It motivates future improvements.
