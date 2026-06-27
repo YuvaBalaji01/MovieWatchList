@@ -1,6 +1,4 @@
 /* MovieCard.jsx Styles */
-
-
 .movie-card{
     position:relative;
     overflow:hidden;
@@ -20,7 +18,40 @@
 .add-btn{
     position:absolute;
     top:12px;
-    right:12px;
+    left:12px;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:28px;
+    font-weight:600;
+
+    color:#fff;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(8px);
+
+    cursor:pointer;
+
+    opacity:0;
+    transform:translateY(-10px);
+
+    transition:all .25s ease;
+
+    z-index:5;
+}
+
+/* Floating Add Button */
+.delete-btn{
+    position:absolute;
+    top:12px;
+    right:6px;
 
     width:42px;
     height:42px;
@@ -54,6 +85,10 @@
     opacity:1;
     transform:translateY(0);
 }
+.movie-card:hover .delete-btn{
+    opacity:1;
+    transform:translateY(0);
+}
 
 .movie-card:hover{
     transform: translateY(-2px);
@@ -63,6 +98,10 @@
 /* Hover effect */
 .add-btn:hover{
     background:#29b6f6;
+    transform:scale(1.1);
+}
+.delete-btn:hover{
+    background:#f62989;
     transform:scale(1.1);
 }
 

@@ -245,8 +245,6 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
 
       <HeroSlider currentMovie={currentMovie} fade={fade} />
 
-      {/* 🔍 SEARCH RESULTS */}
-
       <div className="content-section">
 
         {!isMyListPage && !isLoginPage && (

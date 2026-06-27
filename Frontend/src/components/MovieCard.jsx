@@ -14,9 +14,6 @@ const MovieCard = ({ movie, onAdd }) => {
         >
           {movie.added ? "✔" : "+"}
         </button>
-        
-      
-
       
     </div>
   );
