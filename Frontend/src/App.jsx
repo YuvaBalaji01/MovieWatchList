@@ -11,7 +11,6 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 const App = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [watchlistCount, setWatchlistCount] = useState(0);
 
   // fetch count from backend
@@ -49,8 +48,6 @@ const App = () => {
         <Route path="/" element={<Hero 
         setSearchQuery={setSearchQuery}
         searchQuery={searchQuery}
-        searchResults={searchResults}
-        setSearchResults={setSearchResults}
         refreshWatchlistCount={fetchWatchlistCount}/>} />
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount}  />} />
         <Route path="/login" element={<Login  onLogin={fetchWatchlistCount}/>} />

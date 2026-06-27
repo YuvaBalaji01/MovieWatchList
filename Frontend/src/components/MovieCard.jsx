@@ -19,9 +19,7 @@ const MovieCard = ({ movie, onAdd }) => {
         </div>
       </div>
 
-      <div className="movie-details">
-        <h3>{movie.title}</h3>
-      </div>
+      
     </div>
   );
 };

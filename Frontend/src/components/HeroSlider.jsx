@@ -5,6 +5,7 @@ const HeroSlider = ({ currentMovie }) => {
 
   const token = localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
+  
 
   return (
     <div

@@ -8,17 +8,21 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, refreshWatchlistCount }) => {
+const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
 
   const [movies, setMovies] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [watchlistMovies, setWatchlistMovies] = useState([]);
   const [currentMovie, setCurrentMovie] = useState(null);
+  const [oscarMovies, setOscarMovies] = useState([]);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userEmail = localStorage.getItem("userEmail");
-  const [oscarMovies, setOscarMovies] = useState([]);
   const isMyListPage = location.pathname === "/my-list";
   const isLoginPage = location.pathname === "/login";
+  const [fade, setFade] = useState(true);
+  
 
   const fetchWatchlist = async () => {
     if (!token) return;
@@ -129,8 +133,13 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
     let index = 0;
 
     const interval = setInterval(() => {
-      index = (index + 1) % watchlistMovies.length;
-      setCurrentMovie(watchlistMovies[index]);
+      setFade(false);
+
+      setTimeout(() => {
+        index = (index + 1) % watchlistMovies.length;
+        setCurrentMovie(watchlistMovies[index]);
+      },500)
+      
     }, 5000);
 
     return () => clearInterval(interval);
@@ -247,82 +256,21 @@ const Hero = ({ setSearchQuery, searchQuery, searchResults, setSearchResults, re
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         )}
+
         {searchResults.length > 0 && (
           <h2>Search Results</h2>)}
-
-        <div className="movies-grid">
-          {searchResults.map(movie => (
-            <div key={movie.id} className="movie-card">
-              <div className="image-wrapper">
-                <img
-                  src={
-                    movie.poster_path
-                      ? `${TMDB_IMAGE_BASE}${movie.poster_path}`
-                      : "https://via.placeholder.com/300x450?text=No+Image"
-                  }
-                  alt={movie.title}
-                />
-
-                <div className="card-overlay">
-                  <button
-                    className="add-btn"
-                    disabled={movie.added}
-                    onClick={() => handleAddToList(movie, "oscar")}
-                  >
-                    {movie.added ? "Added ✔" : "+ Add to List"}
-                  </button>
-                </div>
-              </div>
-
-              <div className="movie-details">
-                <h3>{movie.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
+          <MovieGrid movies={searchResults} onAdd={handleAddToList} />
       </div>
 
 
-      {/* 🔥 TRENDING */}
       <div className="content-section">
-
         <h2>New Arrivals</h2>
         <MovieGrid movies={movies} onAdd={handleAddToList} />
-
       </div>
+
       <div className="content-section">
-        <h2>🏆 Award Winning Movies</h2>
-
-        <div className="movies-grid">
-          {oscarMovies.map(movie => (
-            <div key={movie.id} className="movie-card">
-              <div className="image-wrapper">
-                <img
-                  src={
-                    movie.poster_path
-                      ? `${TMDB_IMAGE_BASE}${movie.poster_path}`
-                      : "https://via.placeholder.com/300x450?text=No+Image"
-                  }
-                  alt={movie.title}
-                />
-
-                <div className="card-overlay">
-                  <button
-                    className="add-btn"
-                    disabled={movie.added}
-                    onClick={() => handleAddToList(movie, "oscar")}
-                  >
-                    {movie.added ? "Added ✔" : "+ Add to List"}
-                  </button>
-                </div>
-              </div>
-
-              <div className="movie-details">
-                <h3>{movie.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2>Award Winning Movies</h2>
+        <MovieGrid movies={oscarMovies} onAdd={handleAddToList} />
       </div>
 
 
