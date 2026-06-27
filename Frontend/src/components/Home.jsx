@@ -138,6 +138,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
       setTimeout(() => {
         index = (index + 1) % watchlistMovies.length;
         setCurrentMovie(watchlistMovies[index]);
+        setFade(true);
       },500)
       
     }, 5000);
@@ -242,7 +243,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
   return (
     <section className="hero">
 
-      <HeroSlider currentMovie={currentMovie} />
+      <HeroSlider currentMovie={currentMovie} fade={fade} />
 
       {/* 🔍 SEARCH RESULTS */}
 

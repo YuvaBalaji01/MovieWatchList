@@ -1,12 +1,140 @@
 
-.hero-content {
-  height: 65vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 2%;
-  margin: 0rem 0rem 0.8rem 0rem;
-  background-size: cover;
-  background-position: center;
+
+.fade-in{
+    opacity:1;
+    transform:scale(1);
 }
 
+.fade-out{
+    opacity:0;
+    transform:scale(1);
+}
+.hero-slider{
+    position: relative;
+    height: 65vh;
+    overflow: hidden;
+    margin: 0 0 1rem 0;
+}
+.hero-bg{
+    position:absolute;
+    inset:0;
+
+    background-size:cover;
+    background-position:center;
+
+    transform:scale(1);
+    transition:transform 6s ease;
+
+    animation:heroZoom 12s linear infinite alternate;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(5,10,20,.92),
+            rgba(5,10,20,.65),
+            rgba(5,10,20,.88)
+        );
+}
+
+.hero-info{
+    position:relative;
+    z-index:5;
+
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    max-width:700px;
+
+    padding-left:60px;
+}
+
+
+.content-show{
+
+    opacity:1;
+
+    transform:
+        translateY(0)
+        translateX(0);
+
+    transition:
+        opacity .7s ease,
+        transform .7s ease;
+}
+
+.content-hide{
+
+    opacity:0;
+
+    transform:
+        translateY(20px)
+        translateX(-20px);
+
+    transition:
+        opacity .5s ease,
+        transform .5s ease;
+}
+
+.hero-subtitle{
+    color:#7dc7ff;
+    font-size:18px;
+}
+
+.hero-info h1{
+    font-size:2rem;
+    font-weight:700;
+}
+
+.hero-info h2{
+    font-size:2rem;
+}
+
+.hero-rating{
+    color:#FFD54F;
+    font-size:22px;
+}
+
+.hero-info p{
+    max-width:650px;
+    line-height:1.7;
+    color:#d7d7d7;
+}
+
+@keyframes heroZoom{
+
+    from{
+        transform:scale(1);
+    }
+
+    to{
+        transform:scale(1.08);
+    }
+
+}
+
+.primary-btn{
+  max-width: 150px;
+  background-color:#1ca3dd;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 15px;
+  font-size: 20px;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+.primary-btn:hover{
+  font-weight:bold ;
+  background-color:#2aaee7 ;
+  border-radius: 14px;
+  cursor: pointer;
+}

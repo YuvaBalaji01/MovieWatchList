@@ -110,15 +110,13 @@ const MyList = ({ refreshWatchlistCount }) => {
                alt={movie.title}
               />
 
-              <h3>{movie.title}</h3>
-
               <div className="movie-actions">
               <button
                className={`add-btn ${movie.watched ? "watched" : ""}`}
                onClick={() => toggleWatched(movie)}
                disabled={movie.watched}
               >
-              {movie.watched ? "Watched ✔" : "Watched 🤔"}
+              {movie.watched ? "✔" : "👁️"}
               </button>
 
               <button

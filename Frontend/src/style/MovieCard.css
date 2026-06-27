@@ -1,61 +1,78 @@
 /* MovieCard.jsx Styles */
-.movie-card {
-  background: var(--surface-light);
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  max-width: 16rem;
+
+
+.movie-card{
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    max-width: 18rem;
+    height: 60vh;
 }
 
-.movie-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+.movie-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
-.movie-card img {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+/* Floating Add Button */
+.add-btn{
+    position:absolute;
+    top:12px;
+    right:12px;
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:28px;
+    font-weight:600;
+
+    color:#fff;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(8px);
+
+    cursor:pointer;
+
+    opacity:0;
+    transform:translateY(-10px);
+
+    transition:all .25s ease;
+
+    z-index:5;
 }
 
-.movie-card h3 {
-  font-size: 1.1rem;
-  margin: 1rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Show only on hover */
+.movie-card:hover .add-btn{
+    opacity:1;
+    transform:translateY(0);
 }
 
-.movie-card button {
-  margin: 0 1rem 1rem 1rem;
-  background: var(--accent-color);
-  color: var(--bg-dark);
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+.movie-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-.movie-card button:hover {
-  background: #7dd3fc; /* Lighter blue */
+/* Hover effect */
+.add-btn:hover{
+    background:#29b6f6;
+    transform:scale(1.1);
 }
 
-.movie-card button:active {
-  transform: scale(0.95);
+/* Added */
+.add-btn.added{
+    opacity:1;
+    background:#22c55e;
+    color:white;
 }
 
-.add-btn.watched {
-  background-color: #2ecc71;
-  cursor: default;
-  opacity: 0.85;
-}
-
-.add-btn:disabled {
-  cursor: not-allowed;
+.add-btn:disabled{
+    cursor:default;
 }

@@ -1,23 +1,21 @@
 const MovieCard = ({ movie, onAdd }) => {
   return (
     <div className="movie-card">
-      <div className="image-wrapper">
         <img
           src={movie.poster_path? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
             : movie.img}
           alt={movie.title}
         />
 
-        <div className="card-overlay">
-          <button
-            className="add-btn"
-            disabled={movie.added}
-            onClick={() => onAdd(movie, "trending")}
-          >
-            {movie.added ? "Added ✔" : "+ Add to List"}
-          </button>
-        </div>
-      </div>
+        <button
+          className="add-btn"
+          disabled={movie.added}
+          onClick={() => onAdd(movie, "trending")}
+        >
+          {movie.added ? "✔" : "+"}
+        </button>
+        
+      
 
       
     </div>

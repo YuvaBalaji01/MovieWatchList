@@ -32,21 +32,4 @@
 }
 
 
-.primary-btn{
-  max-width: 150px;
-  background-color:#1ca3dd;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 15px;
-  font-size: 20px;
-  margin-top: 3rem;
-  font-style: italic;
-}
 
-.primary-btn:hover{
-  font-weight:bold ;
-  background-color:#2aaee7 ;
-  border-radius: 14px;
-  cursor: pointer;
-}
