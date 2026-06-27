@@ -8,13 +8,17 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const {
+      tmdbId,
       title,
       rating,
       watched,
       posterPath,
       backdropPath,
       overview,
-      releaseDate
+      releaseDate,
+      providerName,
+      providerLogo,
+      providerId
     } = req.body;
     const userId = req.user.userId;
 
@@ -27,6 +31,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
 
     const movie = await Movie.create({
+      tmdbId,
       title,
       rating,
       watched,
@@ -34,6 +39,9 @@ router.post("/", authMiddleware, async (req, res) => {
       backdropPath,
       overview,
       releaseDate,
+      providerName,
+      providerLogo,
+      providerId,
       userId:req.user.userId
     });
 

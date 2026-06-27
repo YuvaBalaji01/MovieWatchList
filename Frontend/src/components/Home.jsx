@@ -22,7 +22,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
   const isMyListPage = location.pathname === "/my-list";
   const isLoginPage = location.pathname === "/login";
   const [fade, setFade] = useState(true);
-  
+
 
   const fetchWatchlist = async () => {
     if (!token) return;
@@ -139,8 +139,8 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
         index = (index + 1) % watchlistMovies.length;
         setCurrentMovie(watchlistMovies[index]);
         setFade(true);
-      },500)
-      
+      }, 500)
+
     }, 5000);
 
     return () => clearInterval(interval);
@@ -190,6 +190,24 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
       return;
     }
 
+    const providerRes = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie.id}/watch/providers?api_key=${API_KEY}`
+    );
+
+    const providerData = await providerRes.json();
+
+    const india = providerData.results?.IN;
+
+    let providerName = null;
+    let providerLogo = null;
+    let providerId = null;
+
+    if (india?.flatrate?.length) {
+      providerName = india.flatrate[0].provider_name;
+      providerLogo = india.flatrate[0].logo_path;
+      providerId = india.flatrate[0].provider_id;
+    }
+
     const res = await fetch(`${API_BASE}/api/movies`, {
       method: "POST",
       headers: {
@@ -197,13 +215,17 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
+        tmdbId: movie.id,
         title: movie.title,
         rating: movie.vote_average || 0,
         watched: false,
         posterPath: movie.poster_path,
         backdropPath: movie.backdrop_path,
         overview: movie.overview,
-        releaseDate: movie.release_date
+        releaseDate: movie.release_date,
+        providerName,
+        providerLogo,
+        providerId
       })
     });
 
@@ -258,7 +280,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
 
         {searchResults.length > 0 && (
           <h2>Search Results</h2>)}
-          <MovieGrid movies={searchResults} onAdd={handleAddToList} />
+        <MovieGrid movies={searchResults} onAdd={handleAddToList} />
       </div>
 
 

@@ -120,6 +120,17 @@
 
 }
 
+.provider-info{
+    justify-content: center;
+}
+
+
+.provider-info img{
+
+    max-width: 50px;
+    max-height: 50px;
+}
+
 .primary-btn{
   max-width: 150px;
   background-color:#1ca3dd;

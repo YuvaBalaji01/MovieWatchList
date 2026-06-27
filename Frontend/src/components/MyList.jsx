@@ -135,7 +135,7 @@ const MyList = ({ refreshWatchlistCount }) => {
                     onClick={() => toggleWatched(movie)}
                     disabled={movie.watched}
                   >
-                    {movie.watched ? "✔" : "👁️"}
+                    {movie.watched ? "✔" : "✔"}
                   </button>
 
                   {!movie.watched && (
