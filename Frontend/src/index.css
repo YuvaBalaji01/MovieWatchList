@@ -9,6 +9,7 @@
 @import "./style/Footer.css";
 @import "./style/App.css";
 @import "./style/HeroSlider.css";
+@import "./style/MovieDetails.css";
 
 /* Color Palette & Variables */
 :root {

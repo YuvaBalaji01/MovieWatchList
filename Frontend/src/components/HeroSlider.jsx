@@ -31,31 +31,33 @@ const HeroSlider = ({ currentMovie, fade }) => {
       {/* Background */}
       <div
         className="hero-bg"
-        style={{
-          backgroundImage: `url(${backgroundImage})`
-        }}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       />
 
-      {/* Dark Overlay */}
+      {/* Overlay */}
       <div className="hero-overlay" />
 
       {/* Content */}
       <div className={`hero-info ${fade ? "content-show" : "content-hide"}`}>
 
         {token && currentMovie ? (
+
+          /* ── LOGGED-IN STATE ── */
           <>
-            <span className="hero-subtitle">
-              Continue Watching
-            </span>
+            <div className="hero-eyebrow">
+              <span className="hero-eyebrow-dot" />
+              <span className="hero-subtitle">Continue Watching</span>
+            </div>
 
             <h1>{currentMovie.title}</h1>
 
-            <div className="hero-rating">
-              <span>⭐ {currentMovie.rating.toFixed(1)}</span>
-
-              <span>•</span>
-
-              <span>{formattedDate.split(" ").pop()}</span>
+            <div className="hero-meta">
+              <span className="hero-meta-item is-rating">
+                ★ {currentMovie.rating.toFixed(1)}
+              </span>
+              <span className="hero-meta-item">
+                {formattedDate.split(" ").pop()}
+              </span>
             </div>
 
             <p>{currentMovie.overview}</p>
@@ -63,36 +65,41 @@ const HeroSlider = ({ currentMovie, fade }) => {
             {released && currentMovie.providerName ? (
 
               <div className="provider">
-
-                <p>Available on</p>
-
+                <span className="provider-label">Available on</span>
                 <div className="provider-info">
-
                   <img
                     src={`https://image.tmdb.org/t/p/original${currentMovie.providerLogo}`}
+                    alt={currentMovie.providerName}
                   />
-
-                  
-
+                  <span className="provider-name">
+                    {currentMovie.providerName}
+                  </span>
                 </div>
-
               </div>
 
             ) : (
 
               <div className="provider">
-
-                <p>🎬 In theatres from</p>
-
-                <strong>{formattedDate}</strong>
-
+                <span className="provider-label">🎬 In theatres from</span>
+                <strong className="provider-date">{formattedDate}</strong>
               </div>
 
             )}
           </>
+
         ) : (
+
+          /* ── GUEST STATE ── */
           <>
-            <h1>There are total 3,51,89,546+ Movies</h1>
+            <div className="hero-eyebrow">
+              <span className="hero-eyebrow-dot" />
+              <span className="hero-subtitle">Welcome to CineStack</span>
+            </div>
+
+            <h1 className="hero-guest-count">
+              3,51,89,546<span className="hero-count-accent">+</span>
+              <br />Movies
+            </h1>
 
             <h2>How many did You Watch?</h2>
 
@@ -109,6 +116,7 @@ const HeroSlider = ({ currentMovie, fade }) => {
               Get Started →
             </button>
           </>
+
         )}
 
       </div>

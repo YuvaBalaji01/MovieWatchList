@@ -5,6 +5,7 @@ import Hero from "./components/Home";
 import MyList from "./components/MyList";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
+import MovieDetails from "./components/MovieDetails";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -14,46 +15,54 @@ const App = () => {
   const [watchlistCount, setWatchlistCount] = useState(0);
 
   // fetch count from backend
- const fetchWatchlistCount = async () => {
-  
+  const fetchWatchlistCount = async () => {
+
     const token = localStorage.getItem("token");
     if (!token) {
       setWatchlistCount(0);
       return;
     }
-  try {
-    const res = await fetch(`${API_BASE}/api/movies`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    try {
+      const res = await fetch(`${API_BASE}/api/movies`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    const data = await res.json();
-    setWatchlistCount(data.length);
-  } catch (err) {
-    console.error(err);
-  }
-};
+      const data = await res.json();
+      setWatchlistCount(data.length);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   // load count on app start
   useEffect(() => {
     fetchWatchlistCount();
   }, []);
-  
+
   return (
     <BrowserRouter>
-      <Navbar watchlistCount={watchlistCount}  />
+      <Navbar watchlistCount={watchlistCount} />
       <Routes>
-        <Route path="/" element={<Hero 
-        setSearchQuery={setSearchQuery}
-        searchQuery={searchQuery}
-        refreshWatchlistCount={fetchWatchlistCount}/>} />
-        <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount}  />} />
-        <Route path="/login" element={<Login  onLogin={fetchWatchlistCount}/>} />
+        <Route path="/" element={<Hero
+          setSearchQuery={setSearchQuery}
+          searchQuery={searchQuery}
+          refreshWatchlistCount={fetchWatchlistCount} />} />
+        <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount} />} />
+        <Route path="/login" element={<Login onLogin={fetchWatchlistCount} />} />
 
       </Routes>
-        <Footer />
+
+      <Routes>
+        <Route
+          path="/movie/:id"
+          element={<MovieDetails  refreshWatchlistCount={fetchWatchlistCount}/>}
+        />
+      </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 };
