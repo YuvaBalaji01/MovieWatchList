@@ -130,6 +130,7 @@ MovieWatchList
 │       │     ├── Register.jsx
 │       │     ├── MovieGrid.jsx
 │       │     ├── MovieCard.jsx
+│       │     ├── MovieDetails.jsx
 │       │     ├── MyList.jsx
 │       │     ├── Navbar.jsx
 │       │     └── Footer.jsx
@@ -139,6 +140,7 @@ MovieWatchList
 │       │     ├── HeroSlider.css
 │       │     ├── MovieCard.css
 │       │     ├── MovieGrid.css
+│       │     ├── MovieDetails.css
 │       │     ├── Login.css
 │       │     ├── Navbar.css
 │       │     ├── Footer.css
