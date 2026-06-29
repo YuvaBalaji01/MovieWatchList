@@ -92,7 +92,14 @@ const MyList = ({ refreshWatchlistCount }) => {
       ? movies.filter(movie => !movie.watched)
       : movies.filter(movie => movie.watched);
 
-  if (loading) return <h2>Loading your list...</h2>;
+   if (loading) {
+        return (
+            <div className="movie-loading">
+                <div className="loader"></div>
+                <h2>Loading List...</h2>
+            </div>
+        );
+    }
 
   return (
     <div className="content-section">

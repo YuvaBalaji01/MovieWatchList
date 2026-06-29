@@ -5,10 +5,12 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
   const location = useLocation();
   const token = localStorage.getItem("token");
   const isMyListPage = location.pathname === "/my-list";
+  const isMoviePage = location.pathname.includes("/movie/");;
   const isLoginPage = location.pathname === "/login";
   const userEmail = localStorage.getItem("userEmail");
 
-  return (
+   if(!isMoviePage){
+    return (
     <nav className="navbar">
       <div className="logo">
         {!isMyListPage ? (
@@ -73,6 +75,9 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
       </div>
     </nav>
   );
-};
+}
 
+}
+
+  
 export default Navbar;

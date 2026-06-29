@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -9,13 +10,20 @@ const POSTER = "https://image.tmdb.org/t/p/w500";
 const MovieDetails = ({ refreshWatchlistCount }) => {
 
     const { id } = useParams();
-
+    const navigate = useNavigate();
     const [movie, setMovie] = useState(null);
     const [trailer, setTrailer] = useState(null);
     const [cast, setCast] = useState([]);
     const [similarMovies, setSimilarMovies] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [providers, setProviders] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "instant" // or "smooth"
+        });
+    }, []);
 
     useEffect(() => {
 
@@ -163,14 +171,22 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
 
     };
 
-    if (!movie)
-        return <h2>Loading...</h2>;
+    if (!movie) {
+        return (
+            <div className="movie-loading">
+                <div className="loader"></div>
+                <h2>Loading Movie...</h2>
+            </div>
+        );
+    }
 
     return (
 
         <div className="movie-page">
 
             {/* ── HERO ── */}
+            <div className="back-btn" onClick={() => navigate(`/`)}> X </div>
+
             <div
                 className="movie-hero"
                 style={{
@@ -178,6 +194,8 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
                         `url(${IMAGE}${movie.backdrop_path})`
                 }}
             >
+                 
+
 
                 <div className="movie-hero-inner">
 
@@ -198,9 +216,12 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
 
                     </div>
 
+                    
+
                     {/* TEXT */}
                     <div className="movie-right">
 
+                       
                         {/* Eyebrow */}
                         <div className="movie-eyebrow">
                             <span className="movie-eyebrow-tag">
@@ -209,6 +230,8 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
                             <span className="movie-eyebrow-year">
                                 {movie.release_date?.slice(0, 4)}
                             </span>
+                            
+
                         </div>
 
                         {/* Title */}

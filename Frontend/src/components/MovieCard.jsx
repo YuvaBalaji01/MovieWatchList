@@ -15,7 +15,7 @@ const MovieCard = ({ movie, onAdd }) => {
         <button
           className="add-btn"
           disabled={movie.added}
-          onClick={() =>{
+          onClick={(e) =>{
             e.stopPropagation();
             onAdd(movie, "trending")}}
         >
