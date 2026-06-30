@@ -8,7 +8,7 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
+const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds }) => {
 
   const [movies, setMovies] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -280,18 +280,18 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount }) => {
 
         {searchResults.length > 0 && (
           <h2>Search Results</h2>)}
-        <MovieGrid movies={searchResults} onAdd={handleAddToList} />
+        <MovieGrid movies={searchResults} onAdd={handleAddToList} watchlistIds={watchlistIds} />
       </div>
 
 
       <div className="content-section">
         <h2>New Arrivals</h2>
-        <MovieGrid movies={movies} onAdd={handleAddToList} />
+      <MovieGrid movies={movies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
       </div>
 
       <div className="content-section">
         <h2>Award Winning Movies</h2>
-        <MovieGrid movies={oscarMovies} onAdd={handleAddToList} />
+      <MovieGrid movies={oscarMovies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
       </div>
 
 

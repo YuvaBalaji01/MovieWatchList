@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const IMAGE = "https://image.tmdb.org/t/p/original";
 const POSTER = "https://image.tmdb.org/t/p/w500";
 
-const MovieDetails = ({ refreshWatchlistCount }) => {
+const MovieDetails = ({ refreshWatchlistCount, watchlistIds }) => {
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -171,6 +171,8 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
 
     };
 
+   
+
     if (!movie) {
         return (
             <div className="movie-loading">
@@ -179,6 +181,8 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
             </div>
         );
     }
+
+     const inlist = watchlistIds.has(movie.id);
 
     return (
 
@@ -268,7 +272,7 @@ const MovieDetails = ({ refreshWatchlistCount }) => {
                                 className="btn-add-list"
                                 onClick={() => { handleAddToList(movie) }}
                             >
-                                + Add To List
+                                {inlist? "✔ Added" : "+ Add To List" }
                             </button>
                         </div>
 

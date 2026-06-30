@@ -108,13 +108,23 @@ const HeroSlider = ({ currentMovie, fade }) => {
               Organize your binge-watching.
               All in one place.
             </p>
-
+          {
+            !token?  (
             <button
               className="primary-btn"
               onClick={() => navigate("/login")}
             >
               Get Started →
             </button>
+            ):(
+               <button
+              className="primary-btn"
+              onClick={() => navigate("#")}
+            >
+              Add Movies to your List
+            </button>
+            )
+          }
           </>
 
         )}

@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-const MovieCard = ({ movie, onAdd }) => {
+const MovieCard = ({ movie, onAdd,watchlistIds }) => {
   const navigate = useNavigate();
+  const added = watchlistIds.has(movie.id);
   return (
     <div className="movie-card"
       onClick={() => navigate(`/movie/${movie.tmdbId || movie.id}`)}
@@ -19,7 +20,7 @@ const MovieCard = ({ movie, onAdd }) => {
             e.stopPropagation();
             onAdd(movie, "trending")}}
         >
-          {movie.added ? "✔" : "+"}
+          {added ? "✔" : "+"}
         </button>
       
     </div>

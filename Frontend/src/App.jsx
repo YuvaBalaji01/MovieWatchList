@@ -13,6 +13,7 @@ const App = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [watchlistCount, setWatchlistCount] = useState(0);
+  const [watchlistIds, setWatchlistIds] = useState(new Set());
 
   // fetch count from backend
   const fetchWatchlistCount = async () => {
@@ -31,10 +32,14 @@ const App = () => {
 
       const data = await res.json();
       setWatchlistCount(data.length);
+      const ids = new Set(data.map(movie => Number(movie.tmdbId)));
+      setWatchlistIds(ids);
     } catch (err) {
       console.error(err);
     }
   };
+
+  
 
 
   // load count on app start
@@ -49,7 +54,8 @@ const App = () => {
         <Route path="/" element={<Hero
           setSearchQuery={setSearchQuery}
           searchQuery={searchQuery}
-          refreshWatchlistCount={fetchWatchlistCount} />} />
+          refreshWatchlistCount={fetchWatchlistCount} 
+          watchlistIds={watchlistIds}/>} />
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount} />} />
         <Route path="/login" element={<Login onLogin={fetchWatchlistCount} />} />
 
@@ -58,7 +64,7 @@ const App = () => {
       <Routes>
         <Route
           path="/movie/:id"
-          element={<MovieDetails  refreshWatchlistCount={fetchWatchlistCount}/>}
+          element={<MovieDetails  refreshWatchlistCount={fetchWatchlistCount}  watchlistIds={watchlistIds}/>}
         />
       </Routes>
 
