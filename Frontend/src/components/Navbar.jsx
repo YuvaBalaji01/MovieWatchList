@@ -9,7 +9,7 @@ const Navbar = ({ watchlistCount, setSearchQuery }) => {
   const isLoginPage = location.pathname === "/login";
   const userEmail = localStorage.getItem("userEmail");
 
-   if(!isMoviePage){
+   if(!isMoviePage && !isLoginPage){
     return (
     <nav className="navbar">
       <div className="logo">

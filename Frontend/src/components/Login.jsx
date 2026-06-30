@@ -1,19 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const TMDB_IMG    = "https://image.tmdb.org/t/p/w500";
 
 const Login = ({ onLogin }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail]               = useState("");
+  const [password, setPassword]         = useState("");
+  const [isRegister, setIsRegister]     = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const [loading, setLoading] = useState(false); // 🔄 loader
-  const [error, setError] = useState("");        // ❌ error message
+  const [loading, setLoading]           = useState(false);
+  const [error, setError]               = useState("");
+  const [showSuccess, setShowSuccess]   = useState(false);
+  const [posters, setPosters]           = useState([]);
 
   const navigate = useNavigate();
 
+  /* ── Fetch TMDB posters for the film strip ── */
+  useEffect(() => {
+    const fetchPosters = async () => {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&sort_by=vote_average.desc&vote_count.gte=3000&primary_release_date.gte=2020-01-01&primary_release_date.lte=2025-12-31`
+        );
+        const data = await res.json();
+        const withPosters = (data.results || []).filter((m) => m.poster_path);
+        setPosters(withPosters.slice(0, 10));
+      } catch {
+        /* silently fail — strip stays gradient-only */
+      }
+    };
+    fetchPosters();
+  }, []);
+
+  /* ── Auth ── */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -24,12 +45,11 @@ const Login = ({ onLogin }) => {
       : `${API_BASE_URL}/api/auth/login`;
 
     try {
-      const res = await fetch(url, {
+      const res  = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
-
       const data = await res.json();
 
       if (!res.ok) {
@@ -38,81 +58,195 @@ const Login = ({ onLogin }) => {
         return;
       }
 
-      // ✅ LOGIN SUCCESS
       if (!isRegister) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token",     data.token);
         localStorage.setItem("userEmail", data.user.email);
         onLogin();
         navigate("/", { replace: true });
-      } 
-      // ✅ REGISTER SUCCESS
-      else {
-        alert("Registered successfully! Please login.");
-        setIsRegister(false);
+      } else {
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          setIsRegister(false);
+        }, 2200);
       }
-
-    } catch (err) {
+    } catch {
       setError("Server error. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  const switchMode = (mode) => {
+    setIsRegister(mode === "register");
+    setError("");
+  };
+
+  /* Duplicate posters so the CSS scroll loop is seamless */
+  const stripPosters = posters.length > 0 ? [...posters, ...posters] : [];
+
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">
-          {isRegister ? "Create Account" : "Welcome Back"}
-        </h2>
 
-        <p className="auth-subtitle">
-          {isRegister
-            ? "Register to start tracking movies"
-            : "Login to manage your watchlist"}
-        </p>
+      {/* ══ LEFT — Film strip ══ */}
+      <div className="film-panel">
 
-        {/* ❌ ERROR MESSAGE */}
-        {error && <p className="error-text">{error}</p>}
-
-        <form onSubmit={handleSubmit} className="auth-form">
-          <input
-            type="email"
-            placeholder="Email address"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-          />
-
-          <div className="password-field">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
-            />
-
-            <span
-              className="toggle-password"
-              onClick={() => setShowPassword(prev => !prev)}
-            >
-              {showPassword ? "🙈" : "👁️"}
-            </span>
+        <div className="film-columns">
+          {/* Column A — scrolls upward */}
+          <div className="film-col film-col--up">
+            {stripPosters.map((m, i) => (
+              <div className="film-card" key={`a-${i}`}>
+                <img src={`${TMDB_IMG}${m.poster_path}`} alt={m.title} loading="lazy" />
+              </div>
+            ))}
           </div>
 
-          <button type="submit" className="auth-btn" disabled={loading}>
-            {loading ? "Please wait..." : isRegister ? "Register" : "Login"}
-          </button>
-        </form>
+          {/* Column B — scrolls downward */}
+          <div className="film-col film-col--down">
+            {[...stripPosters].reverse().map((m, i) => (
+              <div className="film-card" key={`b-${i}`}>
+                <img src={`${TMDB_IMG}${m.poster_path}`} alt={m.title} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {/* 🔄 SWITCH LOGIN / REGISTER */}
-        <p className="auth-toggle" onClick={() => setIsRegister(!isRegister)}>
-          {isRegister
-            ? "Already have an account? Login"
-            : "New user? Register"}
-        </p>
+        {/* Gradient fade edges */}
+        <div className="film-fade-top"    />
+        <div className="film-fade-bottom" />
+        <div className="film-fade-right"  />
+
+        {/* Brand overlay */}
+        <div className="film-brand">
+          <div className="film-logo">Cine<em>Stack</em></div>
+          <div className="film-tagline">Your personal cinema</div>
+        </div>
+
+      </div>
+
+      {/* ══ RIGHT — Form ══ */}
+      <div className="form-panel">
+        <div className="form-box">
+
+          <div className="form-head">
+            <h1 className="auth-title">
+              <span className="cyan-dot" />
+              {isRegister ? "Create account" : "Welcome back"}
+            </h1>
+            <p className="auth-subtitle">
+              {isRegister
+                ? "Start tracking movies you love"
+                : "Sign in to manage your watchlist"}
+            </p>
+          </div>
+
+          <div className="mode-tabs">
+            <button
+              type="button"
+              className={`tab-btn ${!isRegister ? "tab-active" : "tab-inactive"}`}
+              onClick={() => switchMode("login")}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              className={`tab-btn ${isRegister ? "tab-active" : "tab-inactive"}`}
+              onClick={() => switchMode("register")}
+            >
+              Create account
+            </button>
+          </div>
+
+          {error && (
+            <div className="error-box">
+              <span className="error-icon">⚠</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          {showSuccess ? (
+            <div className="success-state">
+              <div className="success-icon">✓</div>
+              <p className="success-title">Account created!</p>
+              <p className="success-sub">Switching to sign in…</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="auth-form">
+
+              <div className="field">
+                <label className="field-label">Email address</label>
+                <div className="field-wrap">
+                  <span className="field-icon">✉</span>
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="field-label">Password</label>
+                <div className="field-wrap">
+                  <span className="field-icon">🔒</span>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
+                    autoComplete={isRegister ? "new-password" : "current-password"}
+                    style={{ paddingRight: "44px" }}
+                  />
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPassword((p) => !p)}
+                    role="button"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? "🙈" : "👁️"}
+                  </span>
+                </div>
+              </div>
+
+              <button type="submit" className="auth-btn" disabled={loading}>
+                {loading ? (
+                  <span className="btn-dots">
+                    <span className="dot" />
+                    <span className="dot" />
+                    <span className="dot" />
+                  </span>
+                ) : isRegister ? "Create account" : "Sign in"}
+              </button>
+
+            </form>
+          )}
+
+          {!showSuccess && (
+            <p
+              className="auth-toggle"
+              onClick={() => switchMode(isRegister ? "login" : "register")}
+            >
+              {isRegister
+                ? "Already have an account? Sign in"
+                : "Don't have an account? Create one"}
+            </p>
+          )}
+
+          {!showSuccess && (
+            <div className="stats-row">
+              <div className="stat"><strong>10K+</strong><span>Movies</span></div>
+              <div className="stat"><strong>Free</strong><span>Always</span></div>
+              <div className="stat"><strong>TMDB</strong><span>Powered</span></div>
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );
