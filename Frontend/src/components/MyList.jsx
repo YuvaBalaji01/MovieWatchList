@@ -9,6 +9,34 @@ const MyList = ({ refreshWatchlistCount }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("toWatch");
 
+  const groupMoviesByDate = (movies, type) => {
+
+    return movies.reduce((groups, movie) => {
+
+      const date = new Date(
+        type === "watched"
+          ? movie.watchedAt
+          : movie.createdAt
+      );
+
+      const key = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+
+      groups[key].push(movie);
+
+      return groups;
+
+    }, {});
+
+  };
+
   const deleteMovie = async (id) => {
     const token = localStorage.getItem("token");
 
@@ -92,14 +120,52 @@ const MyList = ({ refreshWatchlistCount }) => {
       ? movies.filter(movie => !movie.watched)
       : movies.filter(movie => movie.watched);
 
-   if (loading) {
-        return (
-            <div className="movie-loading">
-                <div className="loader"></div>
-                <h2>Loading List...</h2>
-            </div>
-        );
-    }
+
+  const toWatchMovies = movies.filter(movie => !movie.watched);
+
+  const watchedMovies = movies.filter(movie => movie.watched);
+
+  const groupedToWatch = groupMoviesByDate(
+    toWatchMovies,
+    "created"
+  );
+
+  const groupedWatched = groupMoviesByDate(
+    watchedMovies,
+    "watched"
+  );
+
+  const getFriendlyDate = (dateString) => {
+
+    const date = new Date(dateString);
+
+    const today = new Date();
+
+    const yesterday = new Date();
+
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString())
+      return "Today";
+
+    if (date.toDateString() === yesterday.toDateString())
+      return "Yesterday";
+
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="movie-loading">
+        <div className="loader"></div>
+        <h2>Loading List...</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="content-section">
@@ -123,43 +189,74 @@ const MyList = ({ refreshWatchlistCount }) => {
       {movies.length === 0 ? (
         <p>No movies added yet</p>
       ) : (
-        <div className="movies-grid">
-          {filteredMovies.map(movie => (
-            <div key={movie._id} className="movie-card">
-              <div className="movie-details">
-                <img
-                  src={
-                    movie.posterPath
-                      ? `https://image.tmdb.org/t/p/w500${movie.posterPath}`
-                      : "https://via.placeholder.com/300x450?text=No+Image"
-                  }
-                  alt={movie.title}
-                />
+        <div >
+          {
+            Object.entries(
+              activeTab === "toWatch"
+                ? groupedToWatch
+                : groupedWatched
+            ).map(([date, movies]) => (
 
-                <div className="movie-actions">
-                  <button
-                    className={`add-btn ${movie.watched ? "watched" : ""}`}
-                    onClick={() => toggleWatched(movie)}
-                    disabled={movie.watched}
-                  >
-                    {movie.watched ? "✔" : "✔"}
-                  </button>
+              <div key={date} className="date-group">
 
-                  {!movie.watched && (
-                    <button
-                      className="delete-btn "
-                      onClick={() => deleteMovie(movie._id)}
-                    >
-                      x
-                    </button>
-                  )}
+                <h2 className="date-heading">
+                  {activeTab === "toWatch"
+                    ? `Added on ${getFriendlyDate(date)}`
+                    : `Watched on ${getFriendlyDate(date)}`}
+                </h2>
 
+                <div className="movies-grid">
+
+                  {movies.map(movie => (
+
+                    <div key={movie._id} className="movie-card">
+
+                      <div className="movie-details">
+
+                        <img
+                          src={
+                            movie.posterPath
+                              ? `https://image.tmdb.org/t/p/w500${movie.posterPath}`
+                              : "https://via.placeholder.com/300x450?text=No+Image"
+                          }
+                          alt={movie.title}
+                        />
+
+                        <div className="movie-actions">
+
+                          <button
+                            className={`add-btn ${movie.watched ? "watched" : ""}`}
+                            onClick={() => toggleWatched(movie)}
+                            disabled={movie.watched}
+                          >
+                            ✔
+                          </button>
+
+                          {!movie.watched && (
+
+                            <button
+                              className="delete-btn"
+                              onClick={() => deleteMovie(movie._id)}
+                            >
+                              ✕
+                            </button>
+
+                          )}
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  ))}
 
                 </div>
 
               </div>
-            </div>
-          ))}
+
+            ))
+          }
         </div>
       )}
 

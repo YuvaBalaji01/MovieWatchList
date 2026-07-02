@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieGrid from "./MovieGrid";
 import HeroSlider from "./HeroSlider";
+import SearchBar from "./SearchBar";
 import { useNavigate } from "react-router-dom";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -8,13 +9,12 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds }) => {
+const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds }) => {
 
   const [movies, setMovies] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
   const [watchlistMovies, setWatchlistMovies] = useState([]);
   const [currentMovie, setCurrentMovie] = useState(null);
-  const [oscarMovies, setOscarMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -147,38 +147,80 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds 
   }, [watchlistMovies]);
 
 
+
   useEffect(() => {
-    const fetchAwardMovies = async () => {
+    const fetchTopRatedMovies = async () => {
+
+      const currentYear = new Date().getFullYear();
+
       const res = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=vote_average.desc&vote_count.gte=3000&primary_release_date.gte=2020-01-01&primary_release_date.lte=2025-12-31`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=vote_average.desc&vote_count.gte=1000&primary_release_date.gte=${currentYear - 1}-01-01&primary_release_date.lte=${currentYear}-12-31`
       );
 
       const data = await res.json();
 
-      setOscarMovies(data.results.slice(0, 12));
+      setTopRatedMovies(data.results.slice(0, 12));
     };
 
-    fetchAwardMovies();
+    fetchTopRatedMovies();
   }, []);
 
+  const [biopics, setBiopics] = useState([]);
 
-  // 🔍 Search TMDB
   useEffect(() => {
-    if (!searchQuery) {
-      setSearchResults([]);
-      return;
-    }
 
-    const fetchMovies = async () => {
+    const fetchBiopics = async () => {
+
       const res = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchQuery}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_keywords=5565&sort_by=popularity.desc`
       );
+
       const data = await res.json();
-      setSearchResults(data.results || []);
+
+      setBiopics(data.results.slice(0, 12));
     };
 
-    fetchMovies();
-  }, [searchQuery]);
+    fetchBiopics();
+
+  }, []);
+
+  const [trueStories, setTrueStories] = useState([]);
+
+  useEffect(() => {
+
+    const fetchTrueStories = async () => {
+
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_keywords=9672&sort_by=popularity.desc`
+      );
+
+      const data = await res.json();
+
+      setTrueStories(data.results.slice(0, 12));
+
+    };
+
+    fetchTrueStories();
+
+  }, []);
+
+  // // 🔍 Search TMDB
+  // useEffect(() => {
+  //   if (!searchQuery) {
+  //     setSearchResults([]);
+  //     return;
+  //   }
+
+  //   const fetchMovies = async () => {
+  //     const res = await fetch(
+  //       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchQuery}`
+  //     );
+  //     const data = await res.json();
+  //     setSearchResults(data.results || []);
+  //   };
+
+  //   fetchMovies();
+  // }, [searchQuery]);
 
   // ➕ Add to backend
   const handleAddToList = async (movie, source) => {
@@ -244,30 +286,29 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds 
       <div className="content-section">
 
         {!isMyListPage && !isLoginPage && (
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Movie in Ur Mind? Search it!"
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <SearchBar handleAddToList={handleAddToList} watchlistIds={watchlistIds}/>
         )}
 
-        {searchResults.length > 0 && (
-          <>
-          <h2>Search Results</h2>
-        <MovieGrid movies={searchResults} onAdd={handleAddToList} watchlistIds={watchlistIds} />
-        </>)}
+        
       </div>
 
 
       <div className="content-section">
         <h2>New Arrivals</h2>
-      <MovieGrid movies={movies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
+        <MovieGrid movies={movies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
       </div>
 
       <div className="content-section">
-        <h2>Award Winning Movies</h2>
-      <MovieGrid movies={oscarMovies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
+        <h2>Biopic's</h2>
+        <MovieGrid movies={biopics} onAdd={handleAddToList} watchlistIds={watchlistIds} />
+      </div>
+      <div className="content-section">
+        <h2>Based On TrueStories</h2>
+        <MovieGrid movies={trueStories} onAdd={handleAddToList} watchlistIds={watchlistIds} />
+      </div>
+      <div className="content-section">
+        <h2>Top Rated of the Year</h2>
+        <MovieGrid movies={topRatedMovies} onAdd={handleAddToList} watchlistIds={watchlistIds} />
       </div>
 
 

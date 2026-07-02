@@ -42,7 +42,7 @@ router.post("/", authMiddleware, async (req, res) => {
       providerName,
       providerLogo,
       providerId,
-      userId:req.user.userId
+      userId: req.user.userId
     });
 
     res.status(201).json(movie);
@@ -77,7 +77,14 @@ router.put("/:id/toggle", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Movie not found" });
     }
 
-    movie.watched = !movie.watched;
+    if (!movie.watched) {
+      movie.watched = true;
+      movie.watchedAt = new Date();
+    } else {
+      movie.watched = false;
+      movie.watchedAt = null;
+    }
+
     await movie.save();
 
     res.json(movie);

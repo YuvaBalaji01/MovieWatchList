@@ -11,7 +11,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 const App = () => {
 
-  const [searchQuery, setSearchQuery] = useState("");
+  
   const [watchlistCount, setWatchlistCount] = useState(0);
   const [watchlistIds, setWatchlistIds] = useState(new Set());
 
@@ -52,8 +52,6 @@ const App = () => {
       <Navbar watchlistCount={watchlistCount} />
       <Routes>
         <Route path="/" element={<Hero
-          setSearchQuery={setSearchQuery}
-          searchQuery={searchQuery}
           refreshWatchlistCount={fetchWatchlistCount} 
           watchlistIds={watchlistIds}/>} />
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount} />} />
