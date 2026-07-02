@@ -234,32 +234,6 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds 
     refreshWatchlistCount();
     await fetchWatchlist();
 
-    // ✅ SEARCH
-    if (source === "search") {
-      setSearchResults(prev =>
-        prev.map(m =>
-          m.id === movie.id ? { ...m, added: true } : m
-        )
-      );
-    }
-
-    // ✅ TRENDING
-    if (source === "trending") {
-      setMovies(prev =>
-        prev.map(m =>
-          m.id === movie.id ? { ...m, added: true } : m
-        )
-      );
-    }
-
-    // ✅ OSCAR
-    if (source === "oscar") {
-      setOscarMovies(prev =>
-        prev.map(m =>
-          m.id === movie.id ? { ...m, added: true } : m
-        )
-      );
-    }
   };
 
   return (
@@ -279,8 +253,10 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount,watchlistIds 
         )}
 
         {searchResults.length > 0 && (
-          <h2>Search Results</h2>)}
+          <>
+          <h2>Search Results</h2>
         <MovieGrid movies={searchResults} onAdd={handleAddToList} watchlistIds={watchlistIds} />
+        </>)}
       </div>
 
 
