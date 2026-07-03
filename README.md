@@ -59,7 +59,7 @@ https://drive.google.com/file/d/1ZGIQr2_uDBMOAlrjzfV6dQJOb7O9RDPs/view?usp=shari
 ### ⚡ Real-Time Updates
 
 * Watchlist count updates instantly
-* Hero slider updates after page refresh
+* Hero slider updates instantly
 * Dynamic rendering based on logged-in user
 
 ### 🎨 UI/UX
@@ -133,6 +133,7 @@ MovieWatchList
 │       │     ├── MovieDetails.jsx
 │       │     ├── MyList.jsx
 │       │     ├── Navbar.jsx
+│       │     ├── SearchBar.jsx
 │       │     └── Footer.jsx
 │       │
 │       ├── style
@@ -145,6 +146,7 @@ MovieWatchList
 │       │     ├── Navbar.css
 │       │     ├── Footer.css
 │       │     ├── Variables.css
+│       │     ├── SearchBar.css
 │       │     └── Global.css
 │       │
 │       ├── App.jsx
@@ -214,10 +216,13 @@ npm run dev
 # 📸 Current Features
 
 * Secure User Authentication
-* Personalized Watchlist
-* Dynamic Hero Slider
-* Search Movies using TMDB
+* Personalized Watchlist With Date
+* Dynamic Hero Slider that display Your WatchList
+* Movie Detail Page contain some information of the movie,trailer,available on and Cast
+* Search Movies using TMDB with some special contrains like Cast,Director,Release Date etc..
 * New Arrivals Section
+* Biopic's Section
+* Based on True Story Section
 * Award Winning Movies Section
 * Add / Remove Movies
 * Mark as Watched
