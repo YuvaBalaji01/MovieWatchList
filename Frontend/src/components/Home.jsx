@@ -204,23 +204,6 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds
 
   }, []);
 
-  // // 🔍 Search TMDB
-  // useEffect(() => {
-  //   if (!searchQuery) {
-  //     setSearchResults([]);
-  //     return;
-  //   }
-
-  //   const fetchMovies = async () => {
-  //     const res = await fetch(
-  //       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchQuery}`
-  //     );
-  //     const data = await res.json();
-  //     setSearchResults(data.results || []);
-  //   };
-
-  //   fetchMovies();
-  // }, [searchQuery]);
 
   // ➕ Add to backend
   const handleAddToList = async (movie, source) => {
