@@ -57,15 +57,12 @@ const App = () => {
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount} />} />
         <Route path="/login" element={<Login onLogin={fetchWatchlistCount} />} />
 
-      </Routes>
-
-      <Routes>
         <Route
           path="/movie/:id"
           element={<MovieDetails  refreshWatchlistCount={fetchWatchlistCount}  watchlistIds={watchlistIds}/>}
         />
+     
       </Routes>
-
       <Footer />
     </BrowserRouter>
   );
