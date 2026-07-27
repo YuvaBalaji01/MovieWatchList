@@ -119,6 +119,7 @@ const MyList = ({ refreshWatchlistCount, onAdd, watchlistIds }) => {
         >
           Watched <span className="tab-count">{watchedMovies.length}</span>
         </span>
+        <div className="back-btn" onClick={() => navigate(`/`)}> X </div>
       </div>
 
       {movies.length === 0 ? (
