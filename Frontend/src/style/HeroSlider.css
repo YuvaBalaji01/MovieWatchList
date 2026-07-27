@@ -5,11 +5,11 @@
    ============================================================ */
 .hero-slider {
     position: relative;
-    height: 90vh;
+    height: 100vh;
     min-height: 420px;
     overflow: hidden;
     margin: 0 0 1rem 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    
 }
 
 /* Background image with Ken Burns zoom */

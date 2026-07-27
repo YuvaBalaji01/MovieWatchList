@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import "../style/Navbar.css";
 
 const Navbar = ({ watchlistCount, setSearchQuery }) => {
 

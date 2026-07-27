@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
-const HeroSlider = ({ currentMovie, fade }) => {
+const HeroSlider = ({ currentMovie, fade, watchlistCount}) => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -27,6 +28,8 @@ const HeroSlider = ({ currentMovie, fade }) => {
 
   return (
     <section className="hero-slider">
+
+      <Navbar watchlistCount={watchlistCount} />
 
       {/* Background */}
       <div

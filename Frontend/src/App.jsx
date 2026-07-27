@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+
 import { useEffect, useState } from "react";
 import Hero from "./components/Home";
 import MyList from "./components/MyList";
@@ -49,11 +49,12 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navbar watchlistCount={watchlistCount} />
+      
       <Routes>
         <Route path="/" element={<Hero
           refreshWatchlistCount={fetchWatchlistCount} 
-          watchlistIds={watchlistIds}/>} />
+          watchlistIds={watchlistIds}
+          watchlistCount={watchlistCount}/>} />
         <Route path="/my-list" element={<MyList refreshWatchlistCount={fetchWatchlistCount} />} />
         <Route path="/login" element={<Login onLogin={fetchWatchlistCount} />} />
 

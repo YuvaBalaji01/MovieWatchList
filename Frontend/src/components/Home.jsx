@@ -9,7 +9,7 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds }) => {
+const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds, watchlistCount }) => {
 
   const [movies, setMovies] = useState([]);
   const [watchlistMovies, setWatchlistMovies] = useState([]);
@@ -264,7 +264,9 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds
   return (
     <section className="hero">
 
-      <HeroSlider currentMovie={currentMovie} fade={fade} />
+      
+
+      <HeroSlider currentMovie={currentMovie} fade={fade}  watchlistCount={watchlistCount} />
 
       <div className="content-section">
 
