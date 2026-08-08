@@ -4,7 +4,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL;
 import MovieGrid from "./MovieGrid";
 import MovieCard from "./MovieCard";
 
-const MyList = ({ refreshWatchlistCount, onAdd, watchlistIds }) => {
+const MyList = ({ refreshWatchlistCount }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const MyList = ({ refreshWatchlistCount, onAdd, watchlistIds }) => {
     if (!res.ok) return;
     setMovies(prev => prev.filter(m => m._id !== id));
     refreshWatchlistCount();
-    fetchWatchlist();
+    // fetchWatchlist();
   };
 
   const toggleWatched = async (movie) => {
@@ -49,7 +49,7 @@ const MyList = ({ refreshWatchlistCount, onAdd, watchlistIds }) => {
     const updated = await res.json();
     alert("Great! Marked as watched 🎉");
     setMovies(prev => prev.map(m => (m._id === updated._id ? updated : m)));
-    fetchWatchlist();
+    // fetchWatchlist();
   };
 
   useEffect(() => {
