@@ -9,7 +9,7 @@ const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
 
-const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds, watchlistCount }) => {
+const Hero = ({ refreshWatchlistCount, watchlistIds, watchlistCount }) => {
 
   const [movies, setMovies] = useState([]);
   const [watchlistMovies, setWatchlistMovies] = useState([]);
@@ -18,7 +18,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const userEmail = localStorage.getItem("userEmail");
+  // const userEmail = localStorage.getItem("userEmail");
   const isMyListPage = location.pathname === "/my-list";
   const isLoginPage = location.pathname === "/login";
   const [fade, setFade] = useState(true);
@@ -206,7 +206,7 @@ const Hero = ({ setSearchQuery, searchQuery, refreshWatchlistCount, watchlistIds
 
 
   // ➕ Add to backend
-  const handleAddToList = async (movie, source) => {
+  const handleAddToList = async (movie) => {
     const token = localStorage.getItem("token");
 
     if (!token) {

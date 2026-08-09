@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import "../style/Navbar.css";
 
-const Navbar = ({ watchlistCount, setSearchQuery }) => {
+const Navbar = ({ watchlistCount}) => {
 
   const location = useLocation();
   const token = localStorage.getItem("token");

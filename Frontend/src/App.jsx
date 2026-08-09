@@ -39,9 +39,6 @@ const App = () => {
     }
   };
 
-  
-
-
   // load count on app start
   useEffect(() => {
     fetchWatchlistCount();

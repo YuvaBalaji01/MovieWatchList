@@ -12,10 +12,8 @@ const SearchBar = ({ handleAddToList, watchlistIds }) => {
 
     useEffect(() => {
 
-        if (!searchQuery) {
-            setSearchResults([]);
-            return;
-        }
+        if (!searchQuery)  return;
+        
         const fetchMovies = async () => {
             let url = "";
             switch (searchType) {
