@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import Hero from "./components/Home";
 import MyList from "./components/MyList";
 import Login from "./components/Login";

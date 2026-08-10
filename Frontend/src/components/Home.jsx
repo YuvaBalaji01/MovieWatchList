@@ -8,7 +8,6 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 
-
 const Hero = ({ refreshWatchlistCount, watchlistIds, watchlistCount }) => {
 
   const [movies, setMovies] = useState([]);
