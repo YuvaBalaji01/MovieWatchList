@@ -49,9 +49,10 @@ const Hero = ({ refreshWatchlistCount, watchlistIds, watchlistCount }) => {
     }
   };
 
-  useEffect(() => {
-    fetchWatchlist();
-  }, []);
+ useEffect(() => {
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time fetch on mount, intentional
+  fetchWatchlist();
+}, []);
 
   useEffect(() => {
     const fetchNewArrivals = async () => {

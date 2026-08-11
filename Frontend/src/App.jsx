@@ -39,9 +39,10 @@ const App = () => {
   };
 
   // load count on app start
-  useEffect(() => {
-    fetchWatchlistCount();
-  }, []);
+ useEffect(() => {
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time fetch on mount, intentional
+  fetchWatchlistCount();
+}, []);
 
   return (
     <BrowserRouter>
